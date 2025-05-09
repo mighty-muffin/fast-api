@@ -39,7 +39,7 @@ jobs:
     uses: mighty-muffin/.github/.github/workflows/reusable-docker-build.yml@main
 
     needs:
-      - scan
+      - pre-commit
       - secret
 
     permissions:
