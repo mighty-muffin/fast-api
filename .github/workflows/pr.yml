@@ -14,32 +14,30 @@ concurrency:
 
 jobs:
 
+  pre-commit:
+    name: Call Pre-Commit run
+    uses: mighty-muffin/.github/.github/workflows/reusable-pre-commit.yml@main
+
   secret:
     name: Call Secret Scanning
     uses: mighty-muffin/.github/.github/workflows/reusable-secret.yml@main
     secrets: inherit
 
-  pre-commit:
-    name: Call Pre-Commit run
-    uses: mighty-muffin/.github/.github/workflows/reusable-pre-commit.yml@main
+  # sca:
+  # sast:
 
-  hello-world:
-    needs:
-      - pre-commit
-      - secret
-    name: Call Hello World
-    uses: mighty-muffin/.github/.github/workflows/reusable-hello-world.yml@main
-    with:
-      comments: "Hello World from CI:pr"
-      enable: false
+  # unit-test:
+  #   needs:
+  #     - sast
+  #     - secret
+  #     - sca
 
   docker-build-push:
-    name: Call Docker Build
-    uses: mighty-muffin/.github/.github/workflows/reusable-docker-build.yml@main
-
     needs:
       - pre-commit
       - secret
+    name: Call Docker Build
+    uses: mighty-muffin/.github/.github/workflows/reusable-docker-build.yml@main
 
     permissions:
       contents: read
@@ -48,3 +46,6 @@ jobs:
 
     with:
       file: "./docker/Dockerfile"
+      platforms: |
+          linux/amd64
+          linux/arm64
