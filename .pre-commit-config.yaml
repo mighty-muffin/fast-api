@@ -3,7 +3,6 @@ fail_fast: false
 ci:
   skip:
     - ggshield
-    - no-commit-to-branch
 repos:
   - repo: https://github.com/commitizen-tools/commitizen
     rev: v4.1.1
