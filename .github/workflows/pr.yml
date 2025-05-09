@@ -7,7 +7,6 @@ on: # yamllint disable-line rule:truthy
       - main
     paths-ignore:
       - 'README.md'
-  workflow_dispatch:
 
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
