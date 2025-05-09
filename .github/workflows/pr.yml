@@ -33,3 +33,19 @@ jobs:
     with:
       comments: "Hello World from CI:pr"
       enable: false
+
+  docker-build-push:
+    name: Call Docker Build
+    uses: mighty-muffin/.github/.github/workflows/reusable-docker-build.yml@main
+
+    needs:
+      - scan
+      - secret
+
+    permissions:
+      contents: read
+      packages: write
+      pull-requests: write
+
+    with:
+      file: "./docker/Dockerfile"
