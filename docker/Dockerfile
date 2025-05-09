@@ -1,38 +1,26 @@
-FROM ubuntu
+FROM python:3.12-slim-bookworm
 
-RUN apt-get update && apt-get install -y \
-        build-essential \
-        python3 \
-        curl \
-        ca-certificates && \
-    apt-get clean
+RUN apt-get update && apt-get install --no-install-recommends -y \
+        build-essential curl && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN curl -sSL https://install.python-poetry.org | python3 -
+# Download the latest installer, install it and then remove it
+ADD https://astral.sh/uv/install.sh /install.sh
+RUN chmod -R 755 /install.sh && /install.sh && rm /install.sh
 
-# Set up the Poetry environment path correctly
-ENV PATH="/root/.local/bin:$PATH"
-
-# Set environment variables for database and secrets
-ENV DB_PASSWORD=${DB_PASSWORD}
-ENV DB_USER=${DB_USER}
-ENV DB_NAME=${DB_NAME}
-ENV DB_HOST=${DB_HOST}
-ENV ACCESS_TOKEN_SECRET_KEY=${ACCESS_TOKEN_SECRET_KEY}
+# Set up the UV environment path correctly
+ENV PATH="/root/.local/bin:${PATH}"
 
 WORKDIR /app
 
-# Copy the application files into the container
-COPY /app .
+COPY fast-api/ .
 
-# Install dependencies with Poetry
-RUN poetry config virtualenvs.in-project true
-RUN poetry install --no-interaction --no-root
+RUN uv sync
 
-# Set up the virtual environment path correctly for the appuser
-ENV PATH="/app/.venv/bin:$PATH"
+ENV PATH="/app/.venv/bin:{$PATH}"
 
-# Expose the application port
+# Expose the specified port for FastAPI
 EXPOSE $PORT
 
-# Start the FastAPI application using Uvicorn
+# Start the application with Uvicorn in production mode, using environment variable references
 CMD ["uvicorn", "src.main:app", "--log-level", "info", "--host", "0.0.0.0" , "--port", "8080"]
