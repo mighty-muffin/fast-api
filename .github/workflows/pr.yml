@@ -2,11 +2,12 @@
 name: CI - Main
 
 on: # yamllint disable-line rule:truthy
-  push:
+  pull_request:
     branches:
       - main
     paths-ignore:
       - 'README.md'
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
@@ -32,5 +33,5 @@ jobs:
     name: Call Hello World
     uses: mighty-muffin/.github/.github/workflows/reusable-hello-world.yml@main
     with:
-      comments: "Hello World from CI:main"
+      comments: "Hello World from CI:pr"
       enable: false
