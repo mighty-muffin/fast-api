@@ -10,3 +10,15 @@ def test_hello():
     assert response.status_code == 200, response.text
     data = response.json()
     assert data == "Hello, World!"
+
+def test_goodbye():
+    response = client.get("/goodbye")
+    assert response.status_code == 200, response.text
+    data = response.json()
+    assert data == "Goodbye, World!"
+
+def test_healthcheck():
+    response = client.get("/healthcheck")
+    assert response.status_code == 200, response.text
+    data = response.json()
+    assert data == {"status": "healthy"}
