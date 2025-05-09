@@ -23,8 +23,50 @@ jobs:
     uses: mighty-muffin/.github/.github/workflows/reusable-secret.yml@main
     secrets: inherit
 
-  # sca:
-  # sast:
+  sca:
+    name: Placeholder - Software Composition Analysis
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: Run SCA
+        run: echo Software Composition Analysis
+        shell: bash
+
+  sast:
+    name: Placeholder - Static Application Security Testing
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: Run SAST
+        run: echo Static Application Security Testing
+        shell: bash
+
+  uv-example:
+    name: python
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./fast-api
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: ".python-version"
 
   # unit-test:
   #   needs:
