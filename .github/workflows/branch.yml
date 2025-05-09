@@ -54,7 +54,7 @@ jobs:
       - secret
       - sca
       - sast
-    name: unit-test
+    name: Run Unit Tests & Integration Tests
     runs-on: ubuntu-24.04
     defaults:
       run:
@@ -69,8 +69,6 @@ jobs:
 
       - name: Set up Python
         uses: actions/setup-python@v5
-        with:
-          python-version-file: ".python-version"
 
   # docker-build-push:
   #   needs:
