@@ -23,8 +23,6 @@ jobs:
   pre-commit:
     name: Call Pre-Commit run
     uses: mighty-muffin/.github/.github/workflows/reusable-pre-commit.yml@main
-    with:
-      configuration_file: ".pre-commit-config.yaml"
 
   hello-world:
     needs:
