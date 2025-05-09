@@ -1,9 +1,13 @@
+import os
+from dotenv import load_dotenv
 from fastapi import FastAPI
+
+load_dotenv()
 
 app = FastAPI()
 
-FEATURE_GOODBYE = True
-FEATURE_HEALTH = True
+FEATURE_GOODBYE = os.getenv("FEATURE_GOODBYE")
+FEATURE_HEALTH = os.getenv("FEATURE_HEALTH")
 
 
 @app.get("/")
