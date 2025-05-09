@@ -94,6 +94,17 @@ jobs:
         run: |
           uv cache prune --ci
 
-  # docker-build-push:
-  #   needs:
-  #     - unit-test:
+  docker-build-push:
+    needs:
+      - unit-test
+    name: Call Docker Build
+    uses: mighty-muffin/.github/.github/workflows/reusable-docker-build.yml@main
+
+    permissions:
+      contents: read
+      packages: write
+      pull-requests: write
+
+    with:
+      file: "./docker/Dockerfile"
+      push: false
