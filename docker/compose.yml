@@ -1,41 +1,27 @@
 ---
+name: fast-api
+
+networks: # docker network create proxy
+  proxy:
+    name: proxy
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.name: proxy
+    external: true
 
 services:
-  app:
-    build:
-      context: .
-      target: production
-      secrets:
-        - DB_PASSWORD
-        - DB_USER
-        - DB_NAME
-        - DB_HOST
-        - ACCESS_TOKEN_SECRET_KEY
-    image: leadspotr:1.0.0
-    ports:
-      - "80:80"
-    secrets:
-      - DB_PASSWORD
-      - DB_USER
-      - DB_NAME
-      - DB_HOST
-      - ACCESS_TOKEN_SECRET_KEY
-    environment:
-      # Pass secrets as environment variables
-      DB_PASSWORD: /run/secrets/DB_PASSWORD
-      DB_USER: /run/secrets/DB_USER
-      DB_NAME: /run/secrets/DB_NAME
-      DB_HOST: /run/secrets/DB_HOST
-      ACCESS_TOKEN_SECRET_KEY: /run/secrets/ACCESS_TOKEN_SECRET_KEY
-
-secrets:
-  DB_PASSWORD:
-    environment: "DB_PASSWORD"
-  DB_USER:
-    environment: "DB_USER"
-  DB_NAME:
-    environment: "DB_NAME"
-  DB_HOST:
-    environment: "DB_HOST"
-  ACCESS_TOKEN_SECRET_KEY:
-    environment: "ACCESS_TOKEN_SECRET_KEY"
+  fast-api:
+    container_name: fast-api
+    image: ghcr.io/mighty-muffin/fast-api:pr-7
+    restart: unless-stopped
+    networks:
+      - proxy
+    # ports:
+    #   - "8080:8080"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.fast-api.entrypoints=https"
+      - "traefik.http.routers.fast-api.rule=Host(`fast-api.local.irishlab.io`)"
+      - "traefik.http.routers.fast-api.service=fast-api"
+      - "traefik.http.routers.fast-api.tls=true"
+      - "traefik.http.services.fast-api.loadbalancer.server.port=8080"
