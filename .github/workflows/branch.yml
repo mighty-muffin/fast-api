@@ -49,9 +49,13 @@ jobs:
         run: echo Static Application Security Testing
         shell: bash
 
-  uv-example:
-    name: python
-    runs-on: ubuntu-latest
+  unit-test:
+    needs:
+      - secret
+      - sca
+      - sast
+    name: unit-test
+    runs-on: ubuntu-24.04
     defaults:
       run:
         working-directory: ./fast-api
@@ -67,12 +71,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version-file: ".python-version"
-
-  # unit-test:
-  #   needs:
-  #     - sast
-  #     - secret
-  #     - sca
 
   # docker-build-push:
   #   needs:
