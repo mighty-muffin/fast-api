@@ -1,5 +1,5 @@
 ## ------------------------------- Builder Stage ------------------------------ ##
-FROM python:3.12-bookworm@sha256:564adc572923a83959dce17dc293d521b3329e930b3e5b8aa98bc50b3d25f8d1 AS builder
+FROM python:3.13-bookworm@sha256:ee8747fc77699389c19486f15346466285731b4cb1378c514be1da9dbd399fba AS builder
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
         build-essential curl &&\
@@ -19,7 +19,7 @@ COPY fast-api/pyproject.toml .
 RUN uv sync
 
 ## ------------------------------- Production Stage ------------------------------ ##
-FROM python:3.12-slim-bookworm@sha256:bae1a061b657f403aaacb1069a7f67d91f7ef5725ab17ca36abc5f1b2797ff92 AS production
+FROM python:3.13-slim-bookworm@sha256:914bf5c12ea40a97a78b2bff97fbdb766cc36ec903bfb4358faf2b74d73b555b AS production
 
 RUN useradd --create-home appuser
 USER appuser
