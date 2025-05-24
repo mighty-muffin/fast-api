@@ -58,11 +58,11 @@ jobs:
         with:
           authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
 
-      - name: Run nslookup & dig
-        run: |
-          nslookup ${{ secrets.SONAR_HOST_URL }}
-          dig ${{ secrets.SONAR_HOST_URL }}
-        shell: bash
+      # - name: Run nslookup & dig
+      #   run: |
+      #     nslookup ${{ secrets.SONAR_HOST_URL }}
+      #     dig ${{ secrets.SONAR_HOST_URL }}
+      #   shell: bash
 
       - name: Run SAST - SonarQube
         uses: SonarSource/sonarqube-scan-action@v5
