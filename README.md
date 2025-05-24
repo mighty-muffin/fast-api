@@ -9,7 +9,13 @@
 Build the container locally
 
 ```bash
-docker build --no-cache \
+export FEATURE_GOODBYE="True"
+export FEATURE_HEALTH="True"
+
+docker build --secret id=FEATURE_GOODBYE \
+             --secret id=FEATURE_HEALTH \
+             --target=production \
+             --no-cache \
              -f docker/Dockerfile . -t fast-api_local
 ```
 

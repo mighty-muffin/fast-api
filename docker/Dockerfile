@@ -21,6 +21,14 @@ RUN uv sync
 ## ------------------------------- Production Stage ------------------------------ ##
 FROM python:3.12-slim-bookworm@sha256:bae1a061b657f403aaacb1069a7f67d91f7ef5725ab17ca36abc5f1b2797ff92 AS production
 
+# The following secrets are available during build time
+RUN --mount=type=secret,id=FEATURE_GOODBYE \
+--mount=type=secret,id=FEATURE_HEALTH \
+FEATURE_GOODBYE=$(cat /run/secrets/FEATURE_GOODBYE) \
+FEATURE_HEALTH=$(cat /run/secrets/FEATURE_HEALTH)
+
+RUN --mount=type=secret,id=secret-key,target=secrets.json
+
 RUN useradd --create-home appuser
 USER appuser
 
