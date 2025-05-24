@@ -43,17 +43,38 @@ jobs:
   sast:
     needs:
       - pre-commit
-    name: Placeholder - Static Application Security Testing
+    name: Call Static Application Security Testing - SonarQube scan
     runs-on: ubuntu-24.04
     timeout-minutes: 5
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
-      - name: Run SAST
-        run: echo Static Application Security Testing
-        shell: bash
+      - name: Connect Tailscale VPN
+        uses: tailscale/github-action@v3
+        with:
+          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+
+      # - name: Run nslookup & dig
+      #   run: |
+      #     nslookup ${{ secrets.SONAR_HOST_URL }}
+      #     dig ${{ secrets.SONAR_HOST_URL }}
+      #   shell: bash
+
+      - name: Run SAST - SonarQube
+        uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+      - name: Quality gating SAST - SonarQube
+        uses: SonarSource/sonarqube-quality-gate-action@v1
+        timeout-minutes: 5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   unit-test:
     needs:
