@@ -37,17 +37,11 @@ jobs:
         shell: bash
 
   sast:
-    name: Placeholder - Static Application Security Testing
-    runs-on: ubuntu-24.04
-    timeout-minutes: 5
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4.2.2
-
-      - name: Run SAST
-        run: echo Static Application Security Testing
-        shell: bash
+    needs:
+      - pre-commit
+    name: Call Static Application Security Testing
+    uses: mighty-muffin/.github/.github/workflows/reusable-sast.yml@main
+    secrets: inherit
 
   unit-test:
     needs:
