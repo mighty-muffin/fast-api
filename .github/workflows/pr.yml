@@ -43,7 +43,7 @@ jobs:
   sast:
     needs:
       - pre-commit
-    name: Call Static Application Security Testing - SonarQube
+    name: Call Static Application Security Testing - SonarQube scan
     runs-on: ubuntu-24.04
     timeout-minutes: 5
 
