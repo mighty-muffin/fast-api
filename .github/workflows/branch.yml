@@ -54,7 +54,6 @@ jobs:
     with:
       working-directory: "fast-api"
 
-
   docker-build-push:
     needs:
       - unit-test
