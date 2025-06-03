@@ -20,7 +20,7 @@ jobs:
 
   secret:
     name: Call Secret Scanning
-    uses: mighty-muffin/.github/.github/workflows/reusable-secret.yml@main
+    uses: irishlab-io/.github/.github/workflows/reusable-secret.yml@main
     secrets: inherit
 
   sca:
@@ -37,10 +37,8 @@ jobs:
         shell: bash
 
   sast:
-    needs:
-      - pre-commit
     name: Call Static Application Security Testing
-    uses: mighty-muffin/.github/.github/workflows/reusable-sast.yml@main
+    uses: irishlab-io/.github/.github/workflows/reusable-sast.yml@main
     secrets: inherit
 
   unit-test:
@@ -49,7 +47,7 @@ jobs:
       - sca
       - sast
     name: Run Unit Tests & Integration Tests
-    uses: mighty-muffin/.github/.github/workflows/reusable-python-uv.yml@main
+    uses: irishlab-io/.github/.github/workflows/reusable-python-uv.yml@main
 
     with:
       working-directory: "fast-api"
@@ -58,7 +56,7 @@ jobs:
     needs:
       - unit-test
     name: Call Docker Build
-    uses: mighty-muffin/.github/.github/workflows/reusable-docker-build.yml@main
+    uses: irishlab-io/.github/.github/workflows/reusable-docker-build.yml@main
 
     permissions:
       contents: read
