@@ -19,7 +19,7 @@ COPY fast-api/pyproject.toml .
 RUN uv sync
 
 ## ------------------------------- Production Stage ------------------------------ ##
-FROM python:3.13-slim-bookworm@sha256:56a11364ffe0fee3bd60af6d6d5209eba8a99c2c16dc4c7c5861dc06261503cc AS production
+FROM python:3.13-slim-bookworm@sha256:d97b595c5f4ac718102e5a5a91adaf04b22e852961a698411637c718d45867c8 AS production
 
 RUN useradd --create-home appuser
 USER appuser
