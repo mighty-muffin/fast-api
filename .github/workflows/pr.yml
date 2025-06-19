@@ -56,7 +56,7 @@ jobs:
     uses: irishlab-io/.github/.github/workflows/reusable-python-uv.yml@main
 
     with:
-      working-directory: "fast-api"
+      working_directory: "fast-api"
 
   docker-build-push:
     needs:
