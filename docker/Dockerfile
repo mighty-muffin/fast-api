@@ -1,5 +1,5 @@
 ## ------------------------------- Builder Stage ------------------------------ ##
-FROM python:3.13-bookworm@sha256:be97a205ac2f0d0662cc312d5cfeb835129f23dd9bc9559e02d686656af1bd52 AS builder
+FROM python:3.13-bookworm@sha256:f7d51cd35460eeb962e8b3752127cf4c14ec2510467b64ce9d0870dc4c830716 AS builder
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
         build-essential curl &&\
